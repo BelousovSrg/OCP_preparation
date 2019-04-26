@@ -1,0 +1,117 @@
+package one;
+
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.*;
+
+/**
+ * Created by gomer on 26.04.2019.
+ */
+public class FunctionalInterfacesOne {
+
+    public static void main(String[] args) {
+        // get()
+        // return any type
+        Supplier<String> str = ()->"String";
+        Supplier<String> str1 = String::new;
+        Supplier<LocalDate> ld1 = LocalDate::now;
+        System.out.println(str.get());
+        System.out.println(str1.get());
+        System.out.println(ld1.get());
+
+        //void accept(T t);
+
+        Consumer<String> c1 = (x)->System.out.println(x);
+        Consumer<String> c2 = System.out::println;
+        StringBuilder con = new StringBuilder("Stringbuilder");
+        Consumer<String> c3 = con::append;
+
+        c1.accept("String");
+        c2.accept("String def");
+        c3.accept(" end");
+       System.out.println(con);
+
+
+        //void accept(T t, U u);
+        Integer a =1;
+        BiConsumer<String, String> bc1 = (x,y)->System.out.println(x + y + " "+a);
+        Map<String, String> map = new HashMap<>();
+        BiConsumer<String,String> bc2 =  map::put;
+
+        bc1.accept("aaa","bbb");
+        bc2.accept("key1","value1");
+
+        // boolean test(T t);
+        // boolean test(T t, U u);
+        Predicate<String> p1 =(x)->x.isEmpty();
+        Predicate<String> p2 =String::isEmpty;
+        System.out.println(p1.test("Non empty"));
+        System.out.println(p2.test("Non empty"));
+
+        BiPredicate<String,String> bp1 = (x,y)->x.startsWith(y);
+        BiPredicate<String,String> bp2 = String::startsWith;
+
+        System.out.println(bp1.test("Start string","St"));
+        System.out.println(bp2.test("Start string","Ast"));
+
+        // R apply(T t);
+        // R apply(T t, U u);
+        Function<String,Integer> f1 =x->x.length()+5;
+        String strbf=new String("Text text");
+        Function<String,Integer> f2 =String::length;
+
+        System.out.println(f1.apply("String text"));
+        System.out.println(f2.apply("String text" + strbf));
+
+        BiFunction<String,String,Integer> bf1 = (x,y)->x.length()+y.length();
+        BiFunction<String,String,String> bf2 = String::concat;
+        System.out.println(bf1.apply("text","next text"));
+        System.out.println(bf2.apply("text","next text"));
+
+        //T apply(T t); <T T>
+        UnaryOperator<String> uo =x->x.concat("123");
+        String addStr="added";
+        UnaryOperator<String> uo1 =addStr::concat;
+
+        System.out.println(uo.apply("First part "));
+        System.out.println(uo1.apply("First part "));
+
+        //T apply(T t1, T t2); <T T T>
+        BinaryOperator<String> bo1 =(x,y)->x.concat(y);
+        BinaryOperator<String> bo2 =String::concat;
+
+        System.out.println(bo1.apply("First part ","second"));
+        System.out.println(bo2.apply("First part ","second"));
+
+        System.out.println(average(150,20,100));
+        System.out.println(average());
+
+
+        Optional<Double> opt = average(140,42,567,14);
+
+        Optional o = (opt== null) ? Optional.empty(): Optional.of(opt);
+        System.out.println(o);
+
+        if(opt.isPresent())
+        {System.out.println(opt.get());}
+        else
+        {
+           opt.empty();
+        }
+
+
+    }
+
+    public static Optional<Double> average (int ... scores)
+    {
+    if(scores.length==0) return Optional.empty();
+    int sum=0;
+    for(int score: scores) sum +=score;
+    return Optional.of((double)sum/scores.length);
+
+    }
+
+
+}
