@@ -1,0 +1,75 @@
+package one;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.*;
+import java.util.stream.Stream;
+
+
+public class FunctionalInterfasecTwo {
+
+    public static void main(String[] args) {
+
+        Supplier<String> s1 = ()->"Hello";
+        Supplier<String> s2 = String::new;
+
+        System.out.println(s1.get());
+        System.out.println(s2.get());
+
+        String sb = new String("Hello");
+        Consumer<String> c1 = x->System.out.println(x + " last");
+        Consumer<String> c2 = System.out::println;
+
+        c1.accept("123");
+        c2.accept("123");
+
+        BiConsumer<String,String> bc1 = (x,y)->System.out.println(x + y + " last");
+        Map<String,String> mapOne = new HashMap<>();
+        BiConsumer<String, String> bc2 = mapOne::put;
+
+        bc1.accept("string 1","string 2");
+        bc2.accept("strnig 1","srting 2");
+        System.out.println(mapOne);
+
+
+        Predicate<Integer> p1 = x->{if(x==1){return false;} else {return true;}};
+        Predicate<String> p2=String::isEmpty;
+        System.out.println(p1.test(1));
+        System.out.println(p2.test("lenght"));
+
+        BiPredicate<String, String> bp1 = (x,y)->x.startsWith(y);
+        BiPredicate<String, String> bp2 = String::startsWith;
+        System.out.println(bp1.test("string","str"));
+        System.out.println(bp2.test("string","str"));
+
+
+        Function<String,Integer> f1 = x->x.length();
+        Function<String,Integer> f2 = String::length;
+
+        System.out.println(f1.apply("string"));
+        System.out.println(f2.apply("string123"));
+
+        BiFunction<String,String, Integer> bf1 = (x,y)->(x+y).length();
+        BiFunction<String,String,String> bf2 = String::concat;
+
+        System.out.println(bf1.apply("111string123","second str"));
+        System.out.println(bf2.apply("string123","second str"));
+
+
+
+        UnaryOperator<String> uo1 = (x)->x.toUpperCase();
+        UnaryOperator<String> uo2=String::toUpperCase;
+        System.out.println(uo1.apply("lower"));
+        System.out.println(uo2.apply("lower2"));
+
+        BinaryOperator<String> bo1=(x,y)->(y+x).toUpperCase();
+        BinaryOperator<String> bo2=String::concat;
+
+        System.out.println(bo1.apply("lower"," TOP"));
+        System.out.println(bo2.apply("lower"," TOP"));
+
+
+
+
+    }
+}
