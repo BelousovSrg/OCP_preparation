@@ -11,8 +11,11 @@ public class OptionalTestTwo {
         Optional<Integer> opt1 = Optional.of(150);
         Optional<Integer> opt2 = Optional.empty();
 
+        System.out.println(opt1);
+        System.out.println(opt2);
+
         System.out.println(opt1.get());
-        //System.out.println(opt2.get());
+        //System.out.println(opt2.get()); // NoSuchElementException
 
         opt1.ifPresent(x->System.out.println(x*2));
         opt2.ifPresent(x->System.out.println(x*3));// does nothing
